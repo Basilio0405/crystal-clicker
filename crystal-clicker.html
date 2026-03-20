@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRYSTAL CLICKER · idle promo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            user-select: none;
+        }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(145deg, #1a2639 0%, #2a3b4f 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .game-container {
+            background: rgba(22, 34, 50, 0.85);
+            backdrop-filter: blur(6px);
+            border-radius: 3.5rem 2rem 3.5rem 2rem;
+            box-shadow: 0 30px 40px -15px rgba(0,0,0,0.6), inset 0 2px 5px rgba(255,255,255,0.15);
+            padding: 2rem 2.2rem;
+            width: 550px;
+            border: 1px solid #6e8bb8;
+        }
+        h1 {
+            text-align: center;
+            margin: 0 0 0.3rem 0;
+            font-weight: 400;
+            letter-spacing: 5px;
+            word-break: keep-all;
+            color: #dfeefb;
+            text-shadow: 0 4px 0 #0f1a24, 0 0 15px #b3d0ff;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+        }
+        .sub {
+            text-align: center;
+            color: #b2cde0;
+            font-style: italic;
+            margin-bottom: 1.8rem;
+            border-bottom: 1px dashed #546e8a;
+            padding-bottom: 0.7rem;
+            font-size: 1.1rem;
+        }
+        .shard-panel {
+            background: #17212b;
+            border-radius: 100px 20px 100px 20px;
+            padding: 1.2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid #6a8fc0;
+            box-shadow: inset 0 0 15px #040a11, 0 10px 0 #0e1a25;
+            margin-bottom: 2rem;
+        }
+        .shard-counter {
+            background: #0c121c;
+            border-radius: 3rem;
+            padding: 0.7rem 1.8rem;
+            border: 1px solid #7ea3cf;
+        }
+        .shard-label {
+            font-size: 1rem;
+            color: #b3d9ff;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+        .shard-value {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1;
+            color: #ffecbb;
+            text-shadow: 0 0 15px #f9c35c, 0 3px 0 #7f5300;
+        }
+        .crystal-button {
+            background: radial-gradient(circle at 30% 20%, #ffe5b4, #b5762e);
+            width: 120px;
+            height: 120px;
+            border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
+            border: 5px solid #f9e1a4;
+            box-shadow: 0 15px 0 #704e1e, 0 20px 25px black, inset 0 -8px 12px #aa7c3f;
+            cursor: pointer;
+            transition: 0.07s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #f7f1d9;
+            text-shadow: 0 3px 0 #61481c, 0 0 10px #fff3b5;
+            transform: rotate(-2deg);
+        }
+        .crystal-button:active {
+            transform: scale(0.94) rotate(-1deg);
+            box-shadow: 0 6px 0 #704e1e, 0 12px 20px black;
+        }
+        /* upgrade section */
+        .upgrade-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin: 2rem 0 1.2rem;
+        }
+        .upgrade-item {
+            background: #1f3142;
+            border-radius: 40px 12px 40px 12px;
+            padding: 0.9rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid #597797;
+            box-shadow: 0 5px 0 #10212e;
+        }
+        .up-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .up-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #e2edff;
+            line-height: 1.2;
+        }
+        .up-desc {
+            font-size: 0.9rem;
+            color: #9cb8da;
+        }
+        .up-stats {
+            text-align: right;
+            margin-right: 15px;
+            min-width: 80px;
+        }
+        .up-level {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fad275;
+        }
+        .up-price {
+            font-size: 1.1rem;
+            color: #d4e6ff;
+        }
+        .buy-btn {
+            background: #3d5670;
+            border: none;
+            color: white;
+            font-size: 1.6rem;
+            font-weight: bold;
+            width: 70px;
+            height: 70px;
+            border-radius: 30% 30% 30% 30% / 40% 40% 40% 40%;
+            box-shadow: 0 7px 0 #1e2c3b, 0 5px 15px black;
+            cursor: pointer;
+            transition: 0.06s linear;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #96b8e3;
+            color: #ffefc0;
+        }
+        .buy-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 1px 0 #1e2c3b;
+        }
+        .buy-btn.disabled {
+            opacity: 0.45;
+            pointer-events: none;
+            filter: grayscale(0.7);
+            box-shadow: 0 3px 0 #1e2c3b;
+            transform: translateY(4px);
+        }
+        .promo-badge {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            background: #26394e;
+            border-radius: 3rem 1rem 3rem 1rem;
+            padding: 0.6rem 1.8rem;
+            border: 2px dashed #a1c2f0;
+        }
+        .promo-text {
+            color: #fceeb8;
+            font-weight: 500;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+        .promo-glow {
+            background: #dbbf7a;
+            color: #14222e;
+            padding: 0.4rem 1.4rem;
+            border-radius: 3rem;
+            font-weight: 700;
+            font-size: 1.4rem;
+            box-shadow: 0 0 18px #fed38a;
+        }
+
+        /* milestone messages (shown when clickCounter hits targets) */
+        .milestone {
+            margin-top: 0.75rem;
+            padding: 0.6rem 1rem;
+            border-radius: 14px;
+            border: 2px solid #a1c2f0;
+            background: rgba(38, 57, 78, 0.9);
+            color: #fceeb8;
+            font-weight: 800;
+            text-align: center;
+            display: none;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
+        }
+        .milestone.show {
+            display: block;
+        }
+        footer {
+            color: #6784a5;
+            text-align: center;
+            margin-top: 0.9rem;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <h1>✦ SHARD <span style="font-weight:300;">click</span> ✦</h1>
+    <div class="sub">promo edition — tap the crystal</div>
+
+    <!-- main shard area -->
+    <div class="shard-panel">
+        <div class="shard-counter">
+            <div class="shard-label">✨ CRYSTALS</div>
+            <div class="shard-value" id="shardDisplay">0</div>
+        </div>
+        <div class="crystal-button" id="clickButton">🔮</div>
+    </div>
+
+    <!-- upgrade 1 : pickaxe -->
+    <div class="upgrade-grid">
+        <div class="upgrade-item">
+            <div class="up-info">
+                <span class="up-name">⛏️ DIGGER</span>
+                <span class="up-desc">+1 per click · lvl <span id="diggerLevel">0</span></span>
+            </div>
+            <div class="up-stats">
+                <div class="up-level" id="diggerPriceShow">10</div>
+                <div class="up-price">shards</div>
+            </div>
+            <button class="buy-btn" id="buyDigger">⛏️</button>
+        </div>
+
+        <!-- upgrade 2 : mage -->
+        <div class="upgrade-item">
+            <div class="up-info">
+                <span class="up-name">🔮 SHARD MAGE</span>
+                <span class="up-desc">+5 per click · lvl <span id="mageLevel">0</span></span>
+            </div>
+            <div class="up-stats">
+                <div class="up-level" id="magePriceShow">50</div>
+                <div class="up-price">shards</div>
+            </div>
+            <button class="buy-btn" id="buyMage">🔮</button>
+        </div>
+    </div>
+
+    <!-- promo splash + auto-clicker tease -->
+    <div class="promo-badge">
+        <span class="promo-text">✨ special promo ✨</span>
+        <span class="promo-glow" id="promoCountDisplay">0</span>
+    </div>
+
+    <!-- promo milestone messages -->
+    <div id="milestones" aria-live="polite">
+        <div id="milestone25" class="milestone">✨ 25 clicks! keep digging ✨</div>
+        <div id="milestone100" class="milestone">🎉 100 shards mastered — PROMO UNLOCKED 🎉</div>
+    </div>
+
+    <footer>❄️ click bonus · unlimited shards ❄️</footer>
+</div>
+
+<script>
+    (function() {
+        // --- state ---
+        let shards = 0;               // total shards
+        let diggerLevel = 0;           // +1 per click
+        let mageLevel = 0;             // +5 per click
+
+        // upgrade base costs
+        const BASE_DIGGER_PRICE = 10;
+        const BASE_MAGE_PRICE = 50;
+
+        // DOM elements
+        const shardDisplay = document.getElementById('shardDisplay');
+        const clickButton = document.getElementById('clickButton');
+        // digger elements
+        const diggerLevelSpan = document.getElementById('diggerLevel');
+        const diggerPriceShow = document.getElementById('diggerPriceShow');
+        const buyDiggerBtn = document.getElementById('buyDigger');
+        // mage elements
+        const mageLevelSpan = document.getElementById('mageLevel');
+        const magePriceShow = document.getElementById('magePriceShow');
+        const buyMageBtn = document.getElementById('buyMage');
+        // promo element
+        const promoCountDisplay = document.getElementById('promoCountDisplay');
+
+        // helper: cost formula (linear increase)
+        function getDiggerPrice() {
+            return BASE_DIGGER_PRICE + diggerLevel * 8;  // 10,18,26...
+        }
+
+        function getMagePrice() {
+            return BASE_MAGE_PRICE + mageLevel * 25;     // 50,75,100...
+        }
+
+        // update all UI
+        function refreshUI() {
+            // shards
+            shardDisplay.textContent = shards;
+
+            // digger
+            diggerLevelSpan.textContent = diggerLevel;
+            diggerPriceShow.textContent = getDiggerPrice();
+
+            // mage
+            mageLevelSpan.textContent = mageLevel;
+            magePriceShow.textContent = getMagePrice();
+
+            // promo counter: total extra clicks from upgrades (just a fun stat)
+            let totalBonus = (diggerLevel * 1) + (mageLevel * 5);
+            promoCountDisplay.textContent = `+${totalBonus}`;
+
+            // manage disabled class for buttons (affordability)
+            if (shards < getDiggerPrice()) {
+                buyDiggerBtn.classList.add('disabled');
+            } else {
+                buyDiggerBtn.classList.remove('disabled');
+            }
+
+            if (shards < getMagePrice()) {
+                buyMageBtn.classList.add('disabled');
+            } else {
+                buyMageBtn.classList.remove('disabled');
+            }
+        }
+
+        // modify shards and clamp (no negative)
+        function addShards(amount) {
+            shards = Math.max(0, shards + amount);
+            refreshUI();
+        }
+
+        // --- click handler: base 1 + upgrades ---
+        clickButton.addEventListener('click', (e) => {
+            // prevent double events if any (just safety)
+            e.stopPropagation();
+            let clickValue = 1 + (diggerLevel * 1) + (mageLevel * 5);
+            addShards(clickValue);
+        });
+
+        // --- buy digger ---
+        buyDiggerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const price = getDiggerPrice();
+            if (shards >= price) {
+                shards -= price;
+                diggerLevel++;
+                refreshUI();
+            } else {
+                // optional: visual feedback, but disabled already
+                buyDiggerBtn.style.transform = 'scale(0.9)';
+                setTimeout(() => { buyDiggerBtn.style.transform = ''; }, 120);
+            }
+        });
+
+        // --- buy mage ---
+        buyMageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const price = getMagePrice();
+            if (shards >= price) {
+                shards -= price;
+                mageLevel++;
+                refreshUI();
+            } else {
+                buyMageBtn.style.transform = 'scale(0.9)';
+                setTimeout(() => { buyMageBtn.style.transform = ''; }, 120);
+            }
+        });
+
+        // bonus: touch & mobile optimization
+        clickButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();   // avoid double tap zoom
+            let clickValue = 1 + (diggerLevel * 1) + (mageLevel * 5);
+            addShards(clickValue);
+        });
+
+        // initialize UI
+        refreshUI();
+
+        // extra promo: secret message after 100 clicks (just for fun)
+        const milestone25El = document.getElementById('milestone25');
+        const milestone100El = document.getElementById('milestone100');
+
+        let clickCounter = 0;
+        let shown25 = false;
+        let shown100 = false;
+        let lastTouchTs = 0;
+
+        function registerPromoClick() {
+            clickCounter++;
+
+            if (clickCounter === 25 && !shown25) {
+                shown25 = true;
+                milestone25El.classList.add('show');
+            } else if (clickCounter === 100 && !shown100) {
+                shown100 = true;
+                milestone100El.classList.add('show');
+            }
+        }
+
+        // Count from mouse click.
+        clickButton.addEventListener('click', function countPromo() {
+            // On mobile, a touch can be followed by a synthetic click; skip if it was just touched.
+            const now = Date.now();
+            if (now - lastTouchTs < 350) return;
+            registerPromoClick();
+        });
+
+        // Count from touch.
+        clickButton.addEventListener('touchstart', function countPromo() {
+            lastTouchTs = Date.now();
+            registerPromoClick();
+        });
+
+        // tiny style: remove disabled on start (affordability false)
+        refreshUI();
+
+    })();
+</script>
+</body>
+</html>
+
